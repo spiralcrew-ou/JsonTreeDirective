@@ -6,7 +6,7 @@ A basic tree-directive that turns a model into a collapsible tree. Handy when wo
 
 Todo's:
 ----------------
-* Expand a given path (data-expand-path="path.to.expand")
+* Expand a given path (data-open-path="path.to.expand")
 * Improve expand/collapse (reset full tree, toggle text)
 * Review/improve code
 * Add working example page
