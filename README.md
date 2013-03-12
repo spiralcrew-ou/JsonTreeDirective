@@ -5,6 +5,6 @@ Simple json-tree directive (AngularJS)
 
 Todo
 ----------------
-* Possibility to expand a given path
-* Improve expand/collapse
+* Expand a given path (data-expand-path="path.to.expand")
+* Improve expand/collapse (reset full tree, toggle text)
 * Review/improve code
