@@ -2,13 +2,18 @@
 
 var myApp = angular.module('myApp', []);
 
+function AppCtrl($scope, Data){
+    $scope.loadProfiles = function () {
+        Data.loadProfiles($scope);
+    };
+}
+
 myApp.factory('Data', ['$http', function ($http) {
     var loadProfiles = function (scope) {
         $http({
             method:'POST',
             url:'/json/profiles.json'}).
             success(function (response) {
-                scope.data = {};
                 scope.data = response;
             });
     };
@@ -85,7 +90,6 @@ myApp.directive('jsonTree', ['$compile', function ($compile) {
                             markup = angular.element(markup).prepend('<li><a href="#" ng-click="expandAll($event)">(expand all)</a></li>');
 
                             var tree = $compile(markup)(scope);
-
                             element.html("").append(tree.addClass('json-tree'));
                         }
                     });
@@ -95,11 +99,3 @@ myApp.directive('jsonTree', ['$compile', function ($compile) {
     };
     return directiveDefinitionObject;
 }]);
-
-
-function AppCtrl($scope, Data){
-    $scope.loadProfiles = function () {
-        Data.loadProfiles($scope);
-    };
-}
-
