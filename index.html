@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+	<title>Json Tree</title>
+
+	<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+
+	<style>
+		.json-tree, .json-tree ul {
+			list-style: none;
+			margin: 0 0 0 20;
+		}
+
+		.json-tree .parent {
+			margin: .5em 0 .5em 0;
+			color: black;
+		}
+
+		.json-tree .parent:before {
+			content: ">";
+			display: inline-block;
+			margin-right: 5px;
+		}
+
+		.json-tree .parent.open:before{
+			-webkit-transform: rotate(90deg);
+			-moz-transform: rotate(90deg);
+			-o-transform: rotate(90deg);
+			-ms-transform: rotate(90deg);
+			transform: rotate(90deg);
+		}
+
+		.json-tree .parent > a {
+			font-weight: bold;
+		}
+
+		.json-tree .parent > ul {
+			display: none;
+		}
+
+		.json-tree .parent.open > ul {
+			display: block;
+		}
+
+		.json-tree .child {
+			color: #585858;
+		}
+
+		.json-tree em {
+			font-family: Arial;
+			font-style: normal;
+			color: rgba(0, 0, 0, 0.88);
+		}
+	</style>
+
+</head>
+
+<body ng-app="myApp" ng-controller="AppCtrl" ng-init="loadProfiles()">
+
+<div class="row">
+	<div class="span6">
+		<pre>{{data | json}}</pre>
+	</div>
+
+	<pre class="span6 offset1">
+		<div json-tree="{{data|json}}"></div>
+	</pre>
+</div>
+
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.4/angular.min.js"></script>
+<script src="javascripts/app.js"></script>
+
+</body>
+</html>
