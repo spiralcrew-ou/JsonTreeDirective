@@ -86,7 +86,9 @@ myApp.directive('jsonTree', ['$compile', function ($compile) {
 
                     attrs.$observe('jsonTree', function(jsonStr) {
                         if (jsonStr) {
-                            var markup = scope.build(jsonStr);
+                            scope.jsonObj = JSON.parse(jsonStr);
+
+                            var markup = scope.build(scope.jsonObj);
                             markup = angular.element(markup).prepend('<li><a href="#" ng-click="expandAll($event)">(expand all)</a></li>');
 
                             var tree = $compile(markup)(scope);
