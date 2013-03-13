@@ -32,7 +32,7 @@ myApp.directive('jsonTree', ['$compile', function ($compile) {
         restrict: 'A',
         scope: {
             jsonTree: '@',
-            openPath: '@'
+            expandPath: '@'
         },
         link: function (scope, element, attrs) {
             var tree = null;
@@ -87,7 +87,7 @@ myApp.directive('jsonTree', ['$compile', function ($compile) {
                 $event.preventDefault();
             };
 
-            attrs.$observe('openPath', function(path) {
+            attrs.$observe('expandPath', function(path) {
                 if (path) {
                     // console.log(path);
                 }
