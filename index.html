@@ -42,7 +42,7 @@
 		}
 
 		.json-tree .parent > ul {
-			display: block;
+			display: none;
 		}
 
 		.json-tree .parent.open > ul {
@@ -71,7 +71,7 @@
 	</div>
 
 	<pre class="span6 offset1">
-		<div json-tree="{{data}}"></div>
+		<div data-json-tree="{{data}}" data-open-path="results.profiles"></div>
 	</pre>
 </div>
 

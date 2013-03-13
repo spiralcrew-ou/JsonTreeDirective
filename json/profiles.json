@@ -1,4 +1,4 @@
-{"random profiles": [
+{"results": {"profiles": [
     {
         "id": 1,
         "guid": "36a0fb2a-08f7-4a6d-9f76-07bd4bb4e633",
@@ -144,4 +144,4 @@
             }
         ]
     }
-]}
+]}}
