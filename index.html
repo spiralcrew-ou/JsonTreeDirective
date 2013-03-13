@@ -12,7 +12,10 @@
 	<style>
 		.json-tree, .json-tree ul {
 			list-style: none;
-			margin: 0 0 0 20;
+		}
+
+		.json-tree ul {
+			margin: 0 0 0 20px;
 		}
 
 		.json-tree .parent {
@@ -39,7 +42,7 @@
 		}
 
 		.json-tree .parent > ul {
-			display: none;
+			display: block;
 		}
 
 		.json-tree .parent.open > ul {
@@ -53,7 +56,8 @@
 		.json-tree em {
 			font-family: Arial;
 			font-style: normal;
-			color: rgba(0, 0, 0, 0.88);
+			color: rgba(199, 93, 10, 1);
+			font-weight: bold;
 		}
 	</style>
 
