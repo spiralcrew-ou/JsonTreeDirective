@@ -37,11 +37,6 @@ myApp.directive('jsonTree', ['$compile', '$parse', function ($compile, $parse) {
         link: function (scope, element, attrs) {
             var tree = null;
 
-            scope.options = {
-                tree: null,
-                expanded: (angular.isDefined(attrs.expanded) && attrs.expanded === "true")
-            };
-
             var objectLength = function (obj) {
                 var size = 0, key;
                 for (key in obj) {
@@ -86,13 +81,15 @@ myApp.directive('jsonTree', ['$compile', '$parse', function ($compile, $parse) {
                 angular.element(document.getElementsByClassName('parent')).toggleClass('open');
             };
 
+            scope.expand = (angular.isDefined(attrs.expand) && attrs.expand === "true");
+
             scope.showChilds = function ($event) {
                 angular.element($event.target).parent().toggleClass('open');
                 $event.preventDefault();
             };
 
             scope.expandAll = function ($event) {
-                scope.options.expanded = (scope.options.expanded) ? false : true; // toggle state
+                scope.expand = (scope.expand) ? false : true; // toggle state
                 $event.preventDefault();
             };
 
@@ -108,13 +105,16 @@ myApp.directive('jsonTree', ['$compile', '$parse', function ($compile, $parse) {
                 if (data) {
                     try {
                         var out = build(JSON.parse(data));
-                        out = angular.element(out).prepend('<li><a href="#" ng-click="expandAll($event)">(expand all)</a></li>');
+                        out = angular.element(out).prepend('<li><a href="#" ng-click="expandAll($event)">({{toggleTxt}} all)</a></li>');
+
                         element.html("").append($compile(out)(scope).addClass('json-tree'));
 
-                        scope.$watch('options.expanded', function (newVal, oldVal) {
+                        scope.$watch('expand', function (newVal, oldVal) {
                             if (newVal || newVal !== oldVal) {
                                 expandAll();
                             }
+
+                            scope.toggleTxt = (newVal) ? 'contract' : 'expand';
                         });
                     }
                     catch(err) {
