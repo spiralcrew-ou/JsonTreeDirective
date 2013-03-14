@@ -36,7 +36,7 @@ myApp.directive('jsonTree', ['$compile', '$parse', function ($compile, $parse) {
         },
         link: function (scope, element, attrs) {
             var tree = null;
-
+            var level = 0;
             var objectLength = function (obj) {
                 var size = 0, key;
                 for (key in obj) {
@@ -45,15 +45,17 @@ myApp.directive('jsonTree', ['$compile', '$parse', function ($compile, $parse) {
                 return size;
             };
 
-            var traverse = function (data, parent) {
+            var traverse = function (data, parent, level) {
                 tree = parent || "";
                 tree += "<ul>";
 
                 if (data) {
+                    level++; // going down
+
                     angular.forEach(data, function (value, key) {
 
                         if (angular.isObject(value)) {
-                            tree += "<li class='parent'><a href='#' ng-click='showChilds($event)'>" + key + "</a>";
+                            tree += "<li class='parent'><a href='#' ng-click='showChilds($event)'>" + key + "( level: " + level + ")" + "</a>";
 
                             if (angular.isArray(value)) {
                                 tree += " ["+value.length+"]";
@@ -61,25 +63,28 @@ myApp.directive('jsonTree', ['$compile', '$parse', function ($compile, $parse) {
                                 tree += " {"+objectLength(value)+"}";
                             }
 
-                            return traverse(value, tree);
+                            return traverse(value, tree, level); // pass in current level
                         } else {
                             tree += "<li class='child'>" + key + ": " + "<em>" + value + "</em>";
                         }
 
                         tree += "</li>";
                     });
+                } else {
+                    level--; // going up
                 }
 
                 return tree += "</ul>";
             };
 
             var build = function (json) {
-                return traverse(json);
+                return traverse(json, null, 0);
             };
 
             var expandAll = function () {
                 angular.element(document.getElementsByClassName('parent')).toggleClass('open');
             };
+
 
             scope.expand = (angular.isDefined(attrs.expand) && attrs.expand === "true");
 
@@ -93,19 +98,19 @@ myApp.directive('jsonTree', ['$compile', '$parse', function ($compile, $parse) {
                 $event.preventDefault();
             };
 
+
             attrs.$observe('expandPath', function(path) {
                 if (path) {
                     // console.log(path);
                 }
             });
 
-
             // init
             attrs.$observe('jsonTree', function (data) {
                 if (data) {
                     try {
                         var out = build(JSON.parse(data));
-                        out = angular.element(out).prepend('<li><a href="#" ng-click="expandAll($event)">({{toggleTxt}} all)</a></li>');
+                        out = angular.element(out).prepend('<li><a href="#" ng-click="expandAll($event)">({{toggleTxt}})</a></li>');
 
                         element.html("").append($compile(out)(scope).addClass('json-tree'));
 
