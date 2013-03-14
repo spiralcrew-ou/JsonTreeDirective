@@ -70,11 +70,15 @@
 		<pre>{{data|json}}</pre>
 	</div>
 
-	<pre class="span6 offset1">
-		<div data-json-tree="{{data}}"
-			 data-expand-path="{{openPath}}">
-		</div>
-	</pre>
+	<div class="span6 offset1">
+		<pre>
+			open pad: {{openPath}}
+			<div data-json-tree="{{data}}"
+				 data-expand-path="{{openPath}}">
+			</div>
+		</pre>
+	</div>
+
 </div>
 
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.4/angular.min.js"></script>
