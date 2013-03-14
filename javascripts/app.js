@@ -40,7 +40,6 @@ myApp.directive('jsonTree', ['$compile', '$parse', function ($compile, $parse) {
             scope.path = [];
             scope.expand = (angular.isDefined(attrs.expand) && attrs.expand === "true");
 
-
             var objectLength = function (obj) {
                 var size = 0, key;
                 for (key in obj) {
