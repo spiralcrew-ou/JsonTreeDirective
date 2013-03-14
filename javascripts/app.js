@@ -2,7 +2,7 @@
 
 var myApp = angular.module('myApp', []);
 
-function AppCtrl($scope, Data){
+function AppCtrl($scope, Data) {
     $scope.openPath = 'results.profiles';
 
     $scope.loadProfiles = function () {
@@ -13,8 +13,8 @@ function AppCtrl($scope, Data){
 myApp.factory('Data', ['$http', function ($http) {
     var loadProfiles = function (scope) {
         $http({
-            method:'POST',
-            url:'/json/profiles.json'}).
+            method: 'POST',
+            url: '/json/profiles.json'}).
             success(function (response) {
                 scope.data = response;
             });
@@ -35,9 +35,11 @@ myApp.directive('jsonTree', ['$compile', '$parse', function ($compile, $parse) {
             expandPath: '@'
         },
         link: function (scope, element, attrs) {
-            scope.path = [];
-
             var tree = null;
+
+            scope.path = [];
+            scope.expand = (angular.isDefined(attrs.expand) && attrs.expand === "true");
+
 
             var objectLength = function (obj) {
                 var size = 0, key;
@@ -61,9 +63,9 @@ myApp.directive('jsonTree', ['$compile', '$parse', function ($compile, $parse) {
                             tree += "<li class='parent " + opened + "'><a href='#' ng-click='showChilds($event)'>" + key + "</a>";
 
                             if (angular.isArray(value)) {
-                                tree += " ["+value.length+"]";
+                                tree += " [" + value.length + "]";
                             } else if (angular.isObject(value)) {
-                                tree += " {"+objectLength(value)+"}";
+                                tree += " {" + objectLength(value) + "}";
                             }
 
                             return traverse(value, tree, level); // pass in current level
@@ -90,8 +92,6 @@ myApp.directive('jsonTree', ['$compile', '$parse', function ($compile, $parse) {
             };
 
 
-            scope.expand = (angular.isDefined(attrs.expand) && attrs.expand === "true");
-
             scope.showChilds = function ($event) {
                 angular.element($event.target).parent().toggleClass('open');
                 $event.preventDefault();
@@ -102,9 +102,9 @@ myApp.directive('jsonTree', ['$compile', '$parse', function ($compile, $parse) {
                 $event.preventDefault();
             };
 
-            attrs.$observe('expandPath', function(path) {
+            attrs.$observe('expandPath', function (path) {
                 if (path) {
-                    scope.path = path.split('.') || [];
+                    scope.path = path.split('.');
                 }
             });
 
@@ -118,6 +118,7 @@ myApp.directive('jsonTree', ['$compile', '$parse', function ($compile, $parse) {
                         element.html("").append($compile(out)(scope).addClass('json-tree'));
 
                         scope.$watch('expand', function (newVal, oldVal) {
+
                             if (newVal || newVal !== oldVal) {
                                 expandAll();
                             }
@@ -125,7 +126,7 @@ myApp.directive('jsonTree', ['$compile', '$parse', function ($compile, $parse) {
                             scope.toggleTxt = (newVal) ? 'contract' : 'expand';
                         });
                     }
-                    catch(err) {
+                    catch (err) {
                         element.html("No valid JSON received! || I have to write some test...")
                     }
                 }
