@@ -55,7 +55,7 @@ myApp.directive('jsonTree', ['$compile', '$parse', function ($compile, $parse) {
                     angular.forEach(data, function (value, key) {
 
                         if (angular.isObject(value)) {
-                            tree += "<li class='parent'><a href='#' ng-click='showChilds($event)'>" + key + "( level: " + level + ")" + "</a>";
+                            tree += "<li class='parent'><a href='#' ng-click='showChilds($event)'>" + key + " (level: " + level + ")" + "</a>";
 
                             if (angular.isArray(value)) {
                                 tree += " ["+value.length+"]";
