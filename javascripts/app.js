@@ -103,9 +103,7 @@ myApp.directive('jsonTree', ['$compile', '$parse', function ($compile, $parse) {
             };
 
             attrs.$observe('expandPath', function (path) {
-                if (path) {
-                    scope.path = path.split('.');
-                }
+                scope.path = (path) ? path.split('.') : [];
             });
 
             // init
