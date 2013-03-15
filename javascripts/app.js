@@ -6,8 +6,12 @@ function AppCtrl($scope, Data) {
     $scope.data = {};
 
     $scope.loadProfiles = function () {
-        Data.loadProfiles($scope);
+        Data.loadProfiles($scope.data);
     };
+
+    $scope.setTreePath = function (path) {
+        $scope.data.expandPath = path;
+    }
 }
 
 myApp.factory('Data', ['$http', function ($http) {
@@ -16,7 +20,7 @@ myApp.factory('Data', ['$http', function ($http) {
             method: 'POST',
             url: '/json/profiles.json'}).
             success(function (response) {
-                scope.data.results = response;
+                scope.results = response;
             });
     };
 
@@ -103,6 +107,8 @@ myApp.directive('jsonTree', ['$compile', '$parse', function ($compile, $parse) {
             };
 
             attrs.$observe('expandPath', function (path) {
+                console.log(path);
+
                 scope.path = (path) ? path.split('.') : [];
             });
 

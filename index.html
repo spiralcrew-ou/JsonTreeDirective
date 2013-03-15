@@ -71,7 +71,10 @@
 			<form>
 				<fieldset>
 					<legend>Options</legend>
-					<input type="text" placeholder="Type in a path" ng-model="data.expandPath">
+					<a ng-click="setTreePath('profile')">profile</a><br />
+					<a ng-click="setTreePath('profile.tags')">profile.tags</a><br />
+					<a ng-click="setTreePath('profile.friends')">profile.friends</a>
+
 					<label class="checkbox">
 						<input type="checkbox" ng-model="expand"> Expand/contract
 					</label>
