@@ -3,7 +3,7 @@
 var myApp = angular.module('myApp', []);
 
 function AppCtrl($scope, Data) {
-    $scope.openPath = 'results.profiles';
+    $scope.data = {};
 
     $scope.loadProfiles = function () {
         Data.loadProfiles($scope);
@@ -16,7 +16,7 @@ myApp.factory('Data', ['$http', function ($http) {
             method: 'POST',
             url: '/json/profiles.json'}).
             success(function (response) {
-                scope.data = response;
+                scope.data.results = response;
             });
     };
 
@@ -32,7 +32,8 @@ myApp.directive('jsonTree', ['$compile', '$parse', function ($compile, $parse) {
         restrict: 'A',
         scope: {
             jsonTree: '@',
-            expandPath: '@'
+            expandPath: '@',
+            expand: '@'
         },
         link: function (scope, element, attrs) {
             var tree = null;
@@ -105,23 +106,19 @@ myApp.directive('jsonTree', ['$compile', '$parse', function ($compile, $parse) {
                 scope.path = (path) ? path.split('.') : [];
             });
 
+            attrs.$observe('expand', function (val) {
+                expandAll();
+                scope.toggleTxt = (val) ? 'contract' : 'expand';
+            });
+
             // init
             attrs.$observe('jsonTree', function (data) {
-                if (data) {
+                if (angular.isDefined(data)) {
+                    var jsonData = JSON.parse(data)
+
                     try {
-                        var out = build(JSON.parse(data));
-                        out = angular.element(out).prepend('<li><a href="#" ng-click="expandAll($event)">({{toggleTxt}})</a></li>');
-
+                        var out = build(jsonData.results);
                         element.html("").append($compile(out)(scope).addClass('json-tree'));
-
-                        scope.$watch('expand', function (newVal, oldVal) {
-
-                            if (newVal || newVal !== oldVal) {
-                                expandAll();
-                            }
-
-                            scope.toggleTxt = (newVal) ? 'contract' : 'expand';
-                        });
                     }
                     catch (err) {
                         element.html("No valid JSON received! || I have to write some test...")

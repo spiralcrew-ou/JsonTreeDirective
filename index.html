@@ -65,24 +65,30 @@
 
 <body ng-app="myApp" ng-controller="AppCtrl" ng-init="loadProfiles()">
 
-<div class="row">
-	<div class="span6">
-		<pre>{{data|json}}</pre>
-	</div>
+<div class="container-fluid">
+	<div class="row-fluid">
+		<div class="span3">
+			<form>
+				<fieldset>
+					<legend>Options</legend>
+					<input type="text" placeholder="Type in a path" ng-model="data.expandPath">
+					<label class="checkbox">
+						<input type="checkbox" ng-model="expand"> Expand/contract
+					</label>
+				</fieldset>
+			</form>
+		</div>
 
-	<div class="span6 offset1">
-		<pre>
-			open pad: {{openPath}}
+		<div class="well span6">
 			<div data-json-tree="{{data}}"
-				 data-expand-path="{{openPath}}">
+				 data-expand-path="{{data.expandPath}}"
+				 data-expand="{{expand}}">
 			</div>
-		</pre>
+		</div>
 	</div>
-
 </div>
 
-<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.4/angular.min.js"></script>
-<script src="javascripts/app.js"></script>
-
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.4/angular.min.js"></script>
+	<script src="javascripts/app.js"></script>
 </body>
 </html>
